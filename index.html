@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Modern</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+            margin: 0;
+        }
+        .calculator {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 320px;
+        }
+        #display {
+            width: 100%;
+            padding: 15px;
+            font-size: 32px;
+            border: 2px solid #74ebd5;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: right;
+            background-color: #f9f9f9;
+        }
+        button {
+            width: 70px;
+            height: 70px;
+            font-size: 24px;
+            border: none;
+            border-radius: 10px;
+            margin: 5px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.1s;
+        }
+        button:hover {
+            background: #74ebd5;
+            transform: scale(1.05);
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        .operator {
+            background: #ffab40;
+            color: white;
+        }
+        .operator:hover {
+            background: #ff8c00;
+        }
+        .clear {
+            background: #ff4e4e;
+            color: white;
+        }
+        .clear:hover {
+            background: #ff1c1c;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <input type="text" id="display" disabled>
+    <div>
+        <button class="clear" onclick="clearAll()">C</button>
+        <button class="operator" onclick="appendToDisplay('/')">/</button>
+        <button class="operator" onclick="appendToDisplay('*')">*</button>
+        <button class="operator" onclick="appendToDisplay('-')">-</button>
+    </div>
+    <div>
+        <button onclick="appendToDisplay('7')">7</button>
+        <button onclick="appendToDisplay('8')">8</button>
+        <button onclick="appendToDisplay('9')">9</button>
+        <button class="operator" onclick="appendToDisplay('+')">+</button>
+    </div>
+    <div>
+        <button onclick="appendToDisplay('4')">4</button>
+        <button onclick="appendToDisplay('5')">5</button>
+        <button onclick="appendToDisplay('6')">6</button>
+        <button class="operator" onclick="calculate('pow')">^</button>
+    </div>
+    <div>
+        <button onclick="appendToDisplay('1')">1</button>
+        <button onclick="appendToDisplay('2')">2</button>
+        <button onclick="appendToDisplay('3')">3</button>
+        <button class="operator" onclick="calculate('%')">%</button>
+    </div>
+    <div>
+        <button onclick="appendToDisplay('0')">0</button>
+        <button class="operator" onclick="calculate('=')">=</button>
+    </div>
+</div>
+
+<script>
+    function appendToDisplay(value) {
+        document.getElementById('display').value += value;
+    }
+
+    function clearAll() {
+        document.getElementById('display').value = '';
+    }
+
+    function calculate(operation) {
+        const display = document.getElementById('display');
+        let result;
+        try {
+            if (operation === '=') {
+                result = eval(display.value.replace('^', '**'));
+            } else if (operation === 'pow') {
+                const numbers = display.value.split('^');
+                result = Math.pow(parseFloat(numbers[0]), parseFloat(numbers[1]));
+            } else if (operation === '%') {
+                const numbers = display.value.split('%');
+                result = parseFloat(numbers[0]) % parseFloat(numbers[1]);
+            }
+            display.value = result;
+        } catch (error) {
+            display.value = 'Error';
+        }
+    }
+</script>
+
+</body>
+</html>
